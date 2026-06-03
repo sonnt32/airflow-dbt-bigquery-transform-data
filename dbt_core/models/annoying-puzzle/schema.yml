@@ -1,0 +1,59 @@
+version: 2
+
+models:
+  # ============================================================
+  # Lớp STAGING → dataset "stg"
+  # Nhiệm vụ: flatten, dedup, surrogate key
+  # ============================================================
+  - name: ap_event_flatten_raw
+    description: "Bảng GA4 events đã làm phẳng — Annoying Puzzle [stg]"
+    columns:
+      - name: surrogate_key
+        description: "MD5 hash của user_pseudo_id + event_timestamp + event_name"
+        tests:
+          - unique
+          - not_null
+
+      - name: event_date
+        tests:
+          - not_null
+
+      - name: event_name
+        tests:
+          - not_null
+
+      - name: user_pseudo_id
+        tests:
+          - not_null
+
+      - name: ga_session_id
+        tests:
+          - not_null:
+              config:
+                severity: warn
+
+  - name: ap_event_base
+    description: "Bảng base cốt lõi — Annoying Puzzle [stg]"
+    columns:
+      - name: surrogate_key
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('ap_event_flatten_raw')
+              field: surrogate_key
+
+      - name: event_date
+        tests:
+          - not_null
+
+  # ============================================================
+  # Lớp MARTS → dataset "marts"
+  # Nhiệm vụ: aggregate, business logic, phục vụ BI tool
+  # Thêm model mới vào đây khi có
+  # ============================================================
+  # - name: ap_fact_behavior
+  #   description: "Gameplay events đã aggregate — Annoying Puzzle [marts]"
+  #
+  # - name: ap_fact_ads
+  #   description: "Ad impression events — Annoying Puzzle [marts]"

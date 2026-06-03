@@ -1,0 +1,22 @@
+# === BẢO MẬT - Không bao giờ commit ===
+.env
+shared_keys/
+*.json
+
+# === Airflow tự sinh ra - không cần commit ===
+airflow_platform/logs/
+airflow_platform/plugins/
+
+# === dbt tự sinh ra ===
+dbt_core/target/
+dbt_core/dbt_packages/
+dbt_core/logs/
+
+# === Hệ thống ===
+__pycache__/
+.DS_Store
+
+target/
+dbt_packages/
+logs/
+profiles.yml

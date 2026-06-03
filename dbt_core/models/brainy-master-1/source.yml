@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: firebase_raw_bm
+    project: brainy-master-tricky-story
+    dataset: analytics_495120919
+
+    tables:
+      - name: events_intraday_all
+        description: "Bảng GA4 raw events dạng wildcard (*)"
+        identifier: "events_intraday_*"

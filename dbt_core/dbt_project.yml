@@ -1,0 +1,49 @@
+name: "{{ env_var('DBT_PROJECT_NAME') }}"
+version: '1.0.0'
+
+require-dbt-version: ">=1.5.0"
+
+profile: 'multi_game'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+# ============================================================
+# Cấu hình mặc định cho toàn bộ project
+#
+# +schema: stg → tất cả models mặc định vào dataset "stg"
+#
+# Nếu model nào cần vào dataset khác (vd: marts),
+# override trực tiếp trong file SQL bằng config():
+#
+#   {{ config(
+#       materialized='incremental',
+#       schema='marts'
+#   ) }}
+#
+# Macro generate_schema_name đảm bảo dbt dùng đúng tên dataset
+# thay vì nối thêm dataset gốc (analytics_XXXXXXXXX_stg)
+# ============================================================
+models:
+
+  # --- Game 1: Annoying Puzzle ---
+  annoying_puzzle:
+    +materialized: incremental
+    +schema: stg
+
+  # --- Game 2: Brainy Master ---
+  brainy_master:
+    +materialized: incremental
+    +schema: stg
+
+  # --- Thêm game mới: copy block, đổi tên ---
+  # game_b:
+  #   +materialized: incremental
+  #   +schema: stg

@@ -1,0 +1,55 @@
+version: 2
+
+models:
+  # ============================================================
+  # Lớp STAGING → dataset "stg"
+  # Nhiệm vụ: flatten, dedup, surrogate key
+  # ============================================================
+  - name: bm_event_flatten_raw
+    description: "Bảng GA4 events đã làm phẳng — Brainy Master [stg]"
+    columns:
+      - name: surrogate_key
+        description: "MD5 hash của user_pseudo_id + event_timestamp + event_name"
+        tests:
+          - unique
+          - not_null
+
+      - name: event_date
+        tests:
+          - not_null
+
+      - name: event_name
+        tests:
+          - not_null
+
+      - name: user_pseudo_id
+        tests:
+          - not_null
+
+      - name: ga_session_id
+        tests:
+          - not_null:
+              config:
+                severity: warn
+
+  - name: bm_event_base
+    description: "Bảng base cốt lõi — Brainy Master [stg]"
+    columns:
+      - name: surrogate_key
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('bm_event_flatten_raw')
+              field: surrogate_key
+
+      - name: event_date
+        tests:
+          - not_null
+
+  # ============================================================
+  # Lớp MARTS → dataset "marts"
+  # Thêm model mới vào đây khi có
+  # ============================================================
+  # - name: bm_fact_behavior
+  #   description: "Gameplay events đã aggregate — Brainy Master [marts]"
