@@ -26,7 +26,7 @@ import os
 # ============================================================
 # PATHS
 # ============================================================
-SHARED_KEYS_HOST_PATH      = "C:\Users\Son Nguyen\Downloads\dbt_airflow_master\dbt_airflow_master\dbt_airflow_master\shared_keys"
+SHARED_KEYS_HOST_PATH      = os.environ.get("SHARED_KEYS_PATH", "")
 SHARED_KEYS_CONTAINER_PATH = "/opt/airflow/shared_keys"
 
 # ============================================================

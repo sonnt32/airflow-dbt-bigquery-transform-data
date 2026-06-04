@@ -12,39 +12,39 @@ WITH flattened_params AS (
   SELECT
     *,
     MD5(CONCAT(
-        COALESCE(user_pseudo_id, 'null'), 
-        CAST(event_timestamp AS STRING), 
+        COALESCE(user_pseudo_id, 'null'),
+        CAST(event_timestamp AS STRING),
         COALESCE(event_name, 'null')
     )) AS surrogate_key,
 
     (SELECT AS STRUCT
-      MAX(IF(key = 'ga_session_id', value.int_value, NULL)) AS ga_session_id,
-      MAX(IF(key = 'ga_session_number', value.int_value, NULL)) AS ga_session_number,
-      SAFE_CAST(MAX(IF(key = 'level', value.string_value, NULL)) AS INT64) AS level,
-      MAX(IF(key = 'play_type', value.string_value, NULL)) AS start_type,
-      MAX(IF(key = 'play_index', value.int_value, NULL)) AS play_index,
-      MAX(IF(key = 'play_duration', value.int_value, NULL)) AS play_duration,
-      MAX(IF(key = 'lose_by', value.string_value, NULL)) AS lose_by,
-      MAX(IF(key = 'result', value.string_value, NULL)) AS result_by,
-      MAX(IF(key = 'ad_format', value.string_value, NULL)) AS ad_format,
-      MAX(IF(key = 'ad_network', value.string_value, NULL)) AS ad_network,
-      MAX(IF(key = 'ad_platform', value.string_value, NULL)) AS ad_platform,
-      MAX(IF(key = 'ad_source', value.string_value, NULL)) AS ad_source,
-      MAX(IF(key = 'ad_duration', value.int_value, NULL)) AS ad_duration,
-      MAX(IF(key = 'value', value.double_value, NULL)) AS value,
-      MAX(IF(key = 'currency', value.string_value, NULL)) AS currency,
-      MAX(IF(key = 'placement', value.string_value, NULL)) AS placement,
-      MAX(IF(key = 'feature_placement', value.string_value, NULL)) AS feature_placement,
-      MAX(IF(key = 'feature_name', value.string_value, NULL)) AS feature_name,
-      MAX(IF(key = 'feature_duration', value.int_value, NULL)) AS feature_duration,
-      MAX(IF(key = 'button_name', value.string_value, NULL)) AS button_name,
-      MAX(IF(key = 'button_placement', value.string_value, NULL)) AS button_placement,
-      MAX(IF(key = 'ad_type', value.string_value, NULL)) AS ad_type,
-      MAX(IF(key = 'ad_unit_name', value.string_value, NULL)) AS ad_unit_name,
-      MAX(IF(key = 'reason', value.string_value, NULL)) AS reason,
-      MAX(IF(key = 'resource_type', value.string_value, NULL)) AS resource_type,
-      MAX(IF(key = 'engagement_time_msec', value.int_value, NULL)) AS engagement_time_msec,
-      MAX(IF(key = 'resource_amount', value.int_value, NULL)) AS resource_amount,
+      MAX(IF(key = 'ga_session_id',         value.int_value,    NULL)) AS ga_session_id,
+      MAX(IF(key = 'ga_session_number',     value.int_value,    NULL)) AS ga_session_number,
+      SAFE_CAST(MAX(IF(key = 'level',       value.string_value, NULL)) AS INT64) AS level,
+      MAX(IF(key = 'play_type',             value.string_value, NULL)) AS start_type,
+      MAX(IF(key = 'play_index',            value.int_value,    NULL)) AS play_index,
+      MAX(IF(key = 'play_duration',         value.int_value,    NULL)) AS play_duration,
+      MAX(IF(key = 'lose_by',              value.string_value, NULL)) AS lose_by,
+      MAX(IF(key = 'result',               value.string_value, NULL)) AS result_by,
+      MAX(IF(key = 'ad_format',            value.string_value, NULL)) AS ad_format,
+      MAX(IF(key = 'ad_network',           value.string_value, NULL)) AS ad_network,
+      MAX(IF(key = 'ad_platform',          value.string_value, NULL)) AS ad_platform,
+      MAX(IF(key = 'ad_source',            value.string_value, NULL)) AS ad_source,
+      MAX(IF(key = 'ad_duration',          value.int_value,    NULL)) AS ad_duration,
+      MAX(IF(key = 'value',                value.double_value, NULL)) AS value,
+      MAX(IF(key = 'currency',             value.string_value, NULL)) AS currency,
+      MAX(IF(key = 'placement',            value.string_value, NULL)) AS placement,
+      MAX(IF(key = 'feature_placement',    value.string_value, NULL)) AS feature_placement,
+      MAX(IF(key = 'feature_name',         value.string_value, NULL)) AS feature_name,
+      MAX(IF(key = 'feature_duration',     value.int_value,    NULL)) AS feature_duration,
+      MAX(IF(key = 'button_name',          value.string_value, NULL)) AS button_name,
+      MAX(IF(key = 'button_placement',     value.string_value, NULL)) AS button_placement,
+      MAX(IF(key = 'ad_type',              value.string_value, NULL)) AS ad_type,
+      MAX(IF(key = 'ad_unit_name',         value.string_value, NULL)) AS ad_unit_name,
+      MAX(IF(key = 'reason',               value.string_value, NULL)) AS reason,
+      MAX(IF(key = 'resource_type',        value.string_value, NULL)) AS resource_type,
+      MAX(IF(key = 'engagement_time_msec', value.int_value,    NULL)) AS engagement_time_msec,
+      MAX(IF(key = 'resource_amount',      value.int_value,    NULL)) AS resource_amount,
       ARRAY_TO_STRING([
         MAX(IF(key = 'action_seq_1', value.string_value, NULL)),
         MAX(IF(key = 'action_seq_2', value.string_value, NULL)),
@@ -55,24 +55,22 @@ WITH flattened_params AS (
     FROM UNNEST(event_params)) AS ep,
 
     (SELECT AS STRUCT
-      SAFE_CAST(MAX(IF(key = 'current_level', value.string_value, NULL)) AS INT64) AS current_level,
-      MAX(IF(key = 'first_open_time', value.int_value, NULL)) AS first_open_time,
-      MAX(IF(key = 'campaign', value.string_value, NULL)) AS campaign,
-      MAX(IF(key = 'current_screen', value.string_value, NULL)) AS current_screen,
-      MAX(IF(key = 'adset', value.string_value, NULL)) AS adset,
-      MAX(IF(key LIKE 'firebase_exp_%', value.string_value, NULL)) AS firebase_exp_raw
+      SAFE_CAST(MAX(IF(key = 'current_level',  value.string_value, NULL)) AS INT64) AS current_level,
+      MAX(IF(key = 'first_open_time',          value.int_value,    NULL)) AS first_open_time,
+      MAX(IF(key = 'campaign',                 value.string_value, NULL)) AS campaign,
+      MAX(IF(key = 'current_screen',           value.string_value, NULL)) AS current_screen,
+      MAX(IF(key = 'adset',                    value.string_value, NULL)) AS adset,
+      MAX(IF(key LIKE 'firebase_exp_%',        value.string_value, NULL)) AS firebase_exp_raw
     FROM UNNEST(user_properties)) AS up
 
-FROM {{ source('firebase_raw_ap', 'events_intraday_all') }}
+  FROM {{ source('firebase_raw_ap', 'events_intraday_all') }}
 
-WHERE 1=1
-{% if is_incremental() %}
-  AND _TABLE_SUFFIX >= FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE("Asia/Ho_Chi_Minh"), INTERVAL 2 DAY))
-{% else %}
-  AND _TABLE_SUFFIX BETWEEN 
-      FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE("Asia/Ho_Chi_Minh"), INTERVAL 2 DAY))
-      AND FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE("Asia/Ho_Chi_Minh"), INTERVAL 1 DAY))
-{% endif %}
+  WHERE 1=1
+  {% if is_incremental() %}
+    AND _TABLE_SUFFIX = FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE("Asia/Ho_Chi_Minh"), INTERVAL 1 DAY))
+  {% else %}
+    AND _TABLE_SUFFIX = FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE("Asia/Ho_Chi_Minh"), INTERVAL 1 DAY))
+  {% endif %}
 )
 
 SELECT
@@ -82,11 +80,11 @@ SELECT
   event_name,
   user_pseudo_id,
   platform,
-  app_info.version AS app_version,
-  device.mobile_marketing_name,
-  device.mobile_model_name,
-  device.operating_system_version,
-  device.language,
+  app_info.version                    AS app_version,
+  device.mobile_marketing_name        AS device_mobile_marketing_name,
+  device.mobile_model_name            AS device_mobile_model_name,
+  device.operating_system_version     AS device_operating_system_version,
+  device.language                     AS language,
   geo.country,
   geo.city,
   geo.continent,
@@ -131,7 +129,10 @@ SELECT
   ep.resource_type,
   ep.engagement_time_msec,
   ep.resource_amount,
-  ARRAY(SELECT AS STRUCT key, value.string_value, value.int_value, value.float_value, value.double_value FROM UNNEST(event_params)) AS event_params_json
+  ARRAY(
+    SELECT AS STRUCT key, value.string_value, value.int_value, value.float_value, value.double_value
+    FROM UNNEST(event_params)
+  ) AS event_params_json
 
 FROM flattened_params
 

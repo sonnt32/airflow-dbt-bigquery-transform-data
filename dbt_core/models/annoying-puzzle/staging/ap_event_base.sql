@@ -12,7 +12,7 @@ WITH source_flatten AS (
     SELECT * FROM {{ ref('ap_event_flatten_raw') }}
     WHERE 1=1
     {% if is_incremental() %}
-      AND event_date >= DATE_SUB(CURRENT_DATE("Asia/Ho_Chi_Minh"), INTERVAL 2 DAY)
+      AND event_date = DATE_SUB(CURRENT_DATE("Asia/Ho_Chi_Minh"), INTERVAL 1 DAY)
     {% endif %}
 )
 
@@ -25,9 +25,9 @@ SELECT
     ga_session_number,
     ga_session_id,
     app_version,
-    mobile_marketing_name AS device_mobile_marketing_name,
-    mobile_model_name     AS device_mobile_model_name,
-    operating_system_version AS device_operating_system_version,
+    device_mobile_marketing_name,
+    device_mobile_model_name,
+    device_operating_system_version,
     language,
     country,
     city,
