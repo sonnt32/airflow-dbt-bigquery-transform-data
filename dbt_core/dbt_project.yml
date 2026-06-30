@@ -35,7 +35,7 @@ models:
 
   # --- Game 1: Annoying Puzzle ---
   annoying_puzzle:
-    +materialized: incremental
+    +materialized: incremental -- cách incremental là thêm data mới, tăng dần mà không thay thế
     +schema: stg
 
   # --- Game 2: Brainy Master ---

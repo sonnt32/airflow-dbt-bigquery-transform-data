@@ -1,0 +1,9 @@
+BigQuery (dữ liệu thô)
+        ↓
+   source.yml          ← "Tôi lấy dữ liệu từ đây"
+        ↓
+ staging/stg_events.sql ← "Tôi làm sạch dữ liệu"
+        ↓
+  marts/event_base.sql  ← "Tôi tổng hợp dữ liệu"
+        ↓
+marts/event_flatten_raw.sql ← "Tôi làm phẳng dữ liệu"
